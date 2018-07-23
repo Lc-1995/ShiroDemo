@@ -25,15 +25,4 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
-    <!--配置文件的上传-->
-    <bean name="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!--设置文件默认编码-->
-        <property name="defaultEncoding" value="utf-8"></property>
-        <!--设置上传文件最大值-->
-        <property name="maxUploadSize" value="10485760000"></property>
-        <!--内存中最大值-->
-        <property name="maxInMemorySize" value="40960"></property>
-    </bean>
-
 </beans>

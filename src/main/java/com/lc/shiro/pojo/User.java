@@ -23,6 +23,9 @@ public class User {
     @Column(length = 15)
     private String name;
 
+    @Column(length = 20)
+    private String password;
+
     @Column(length = 5)
     private Integer age;
 
@@ -62,5 +65,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

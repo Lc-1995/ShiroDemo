@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--web.xml中的shiroFilter-->
+    <!--Shiro的web过滤器-->
+    <bean id="shiroFilter"
+            class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--指定安全管理器-->
+        <property name="securityManager" ref="securityManager"></property>
+
+        <!--未通过认证时访问的地址-->
+        <property name="loginUrl" value="/login"></property>
+
+        <!--认证通过，但没有权限时访问的地址-->
+        <property name="unauthorizedUrl" value="/unauthorized"></property>
+
+        <!--<property name="filters">
+            <map>
+                <entry key="" value-ref=""></entry>
+            </map>
+        </property>-->
+        <!--真正的filter，过滤链，由上至下，/**放最下面-->
+        <property name="filterChainDefinitions">
+            <value>
+                /unauthorized = anon
+                / = authc
+                /login = anon
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+    <!--安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"></property>
+    </bean>
+
+    <!--自定义realm-->
+    <bean id="myRealm" class="com.lc.shiro.realm.MyRealm"></bean>
+</beans>

@@ -22,6 +22,25 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <!--Shiro过滤器-->
+  <filter>
+    <filter-name>shiroFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    <init-param>
+      <param-name>targetFilterLifecycle</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <!--设置Spring容器中shiro的beanID，默认就是filter-name，通过指定可以更加稳定快速-->
+    <init-param>
+      <param-name>namespace</param-name>
+      <param-value>shiroFilter</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>shiroFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <!--解决中文乱码-->
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
