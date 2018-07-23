@@ -6,11 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String basePath = request.getContextPath();
+    if (!"/".equals(basePath)) {
+        basePath += "/";
+    }
+%>
 <html>
 <head>
     <title>Home</title>
 </head>
 <body>
-    <h1>Login Success!</h1>
+    <h1>Login Success!</h1><br>
+    <a href="<%=basePath%>user/getList">Look userList</a><br>
+    <a href="<%=basePath%>logout">Logout</a>
 </body>
 </html>

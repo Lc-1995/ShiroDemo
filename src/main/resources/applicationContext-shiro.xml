@@ -13,7 +13,7 @@
         <!--指定安全管理器-->
         <property name="securityManager" ref="securityManager"></property>
 
-        <!--未通过认证时访问的地址-->
+        <!--未通过认证时访问的地址 get请求-->
         <property name="loginUrl" value="/login"></property>
 
         <!--认证通过，但没有权限时访问的地址-->
@@ -27,19 +27,34 @@
         <!--真正的filter，过滤链，由上至下，/**放最下面-->
         <property name="filterChainDefinitions">
             <value>
-                /unauthorized = anon
                 / = authc
+                /unauthorized = anon
                 /login = anon
-                /** = anon
+                /logout = logout
+                /user/getList = authc
+                /** = authc
             </value>
         </property>
     </bean>
 
-    <!--安全管理器-->
+    <!--Shiro管理器-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--注入自定义Realm-->
         <property name="realm" ref="myRealm"></property>
     </bean>
 
     <!--自定义realm-->
-    <bean id="myRealm" class="com.lc.shiro.realm.MyRealm"></bean>
+    <bean id="myRealm" class="com.lc.shiro.realm.MyRealm">
+        <!--注入凭证匹配器-->
+        <property name="credentialsMatcher" ref="credentialsMatcher"></property>
+    </bean>
+
+    <!--配置密码的散列 创建一个凭证匹配器-->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <!--散列的方法-->
+        <property name="hashAlgorithmName" value="MD5"></property>
+        <!--散列的次数-->
+        <property name="hashIterations" value="1024"></property>
+        <!--加盐值-->
+    </bean>
 </beans>

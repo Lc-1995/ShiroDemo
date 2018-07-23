@@ -18,8 +18,8 @@
 </head>
 <body>
     <form action="<%=basePath%>login" method="post">
-        username:<input type="text" name="username"><br>
-        password:<input type="password" name="password"><br>
+        username: <input type="text" name="username"><br>
+        password: <input type="password" name="password"><br>
         <input type="submit" value="Login">
     </form>
 </body>
