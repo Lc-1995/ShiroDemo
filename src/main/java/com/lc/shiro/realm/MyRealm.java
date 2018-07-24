@@ -1,9 +1,12 @@
 package com.lc.shiro.realm;
 
+import com.lc.shiro.pojo.Permission;
+import com.lc.shiro.pojo.Role;
 import com.lc.shiro.pojo.User;
 import com.lc.shiro.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
@@ -49,8 +52,27 @@ public class MyRealm extends AuthorizingRealm {
         return info;
     }
 
+    /**
+     *
+     * @Description: 授权
+     * @auther: lichao
+     * @date: 2018/7/24 13:01
+     * @param: [principal]
+     * @return: org.apache.shiro.authz.AuthorizationInfo
+     */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        // 获取认证后的用户信息
+        User user = (User) principal.getPrimaryPrincipal();
+        // 获取用户拥有的角色
+        for (Role role : user.getRoles()) {
+            info.addRole(role.getName());
+            // 获取角色拥有的权限
+            for (Permission permission : role.getPermissions()) {
+                info.addStringPermission(permission.getName());
+            }
+        }
+        return info;
     }
 }

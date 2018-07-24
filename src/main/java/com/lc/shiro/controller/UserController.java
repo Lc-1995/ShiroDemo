@@ -30,4 +30,10 @@ public class UserController {
         mav.setViewName("userInfo");
         return mav;
     }
+
+    @RequestMapping("/delete")
+    public ModelAndView delete(String id) {
+        System.out.println("获取的数据:" + id);
+        return null;
+    }
 }

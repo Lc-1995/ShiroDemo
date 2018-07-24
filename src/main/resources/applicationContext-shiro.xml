@@ -9,7 +9,7 @@
     <!--web.xml中的shiroFilter-->
     <!--Shiro的web过滤器-->
     <bean id="shiroFilter"
-            class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+          class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!--指定安全管理器-->
         <property name="securityManager" ref="securityManager"></property>
 
@@ -19,19 +19,31 @@
         <!--认证通过，但没有权限时访问的地址-->
         <property name="unauthorizedUrl" value="/unauthorized"></property>
 
-        <!--<property name="filters">
+        <!--配置filter-->
+        <property name="filters">
             <map>
-                <entry key="" value-ref=""></entry>
+                <!--自定义Roles过滤器-->
+                <entry key="roles">
+                    <bean class="com.lc.shiro.realm.MyAuthorizationFilter" />
+                </entry>
             </map>
-        </property>-->
-        <!--真正的filter，过滤链，由上至下，/**放最下面-->
+        </property>
+        <!--真正的filter,过滤链,由上至下,/**放最下面-->
         <property name="filterChainDefinitions">
             <value>
+                /js/** = anon
                 / = authc
                 /unauthorized = anon
                 /login = anon
                 /logout = logout
-                /user/getList = authc
+
+                <!--角色方式授权-->
+                /user/getList = roles[月之女祭司,银月骑士团前锋]
+
+                <!--角色+权限方式授权,同时满足-->
+                <!--/user/getList = roles[月之女祭司],perms[阅览]-->
+
+                /user/delete = roles[月之女祭司]
                 /** = authc
             </value>
         </property>
@@ -43,7 +55,7 @@
         <property name="realm" ref="myRealm"></property>
     </bean>
 
-    <!--自定义realm-->
+    <!--自定义realm,认证授权的管理-->
     <bean id="myRealm" class="com.lc.shiro.realm.MyRealm">
         <!--注入凭证匹配器-->
         <property name="credentialsMatcher" ref="credentialsMatcher"></property>
